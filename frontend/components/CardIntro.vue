@@ -7,7 +7,8 @@
         <p class="text-sm">by Artist Name</p>
         <div class="flex items-center gap-4">
           <Button :label="playing ? 'STOP' : 'PLAY'" rounded severity="primary" @click="launchAudioTest"/>
-          <Button label="TRY IT NOW" rounded severity="help"/>
+          <!-- try it out redirect page /welcome -->
+          <Button label="TRY IT OUT" rounded severity="primary" @click="$router.push('/welcome')"/>
         </div>
       </div>
     </div>  
