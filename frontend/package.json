@@ -2,6 +2,8 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
