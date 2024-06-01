@@ -1,7 +1,8 @@
+import uvicorn
 from fastapi import FastAPI
 
-from container import ServerContainer
-from routers import users
+from llamapi.container import ServerContainer
+from llamapi.routers import users
 
 
 def create_app() -> FastAPI:
@@ -29,7 +30,6 @@ def init_container():
 def init_db(container):
     db = container.db()
     db.create_database()
-    # sql_models.Base.metadata.create_all(bind=engine)
 
 
 def init_server(container):
@@ -40,3 +40,10 @@ def init_server(container):
 
 
 app = create_app()
+
+
+if __name__ == '__main__':
+    uvicorn.run(
+        'llamapi.main:app',
+        host='0.0.0.0',
+    )
