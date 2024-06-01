@@ -40,3 +40,10 @@ def init_server(container):
 
 
 app = create_app()
+
+
+def run():
+    try:
+        yield app
+    finally:
+        app.container.db.close()
