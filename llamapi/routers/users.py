@@ -2,9 +2,8 @@ from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 from fief_client import FiefAccessTokenInfo
 
-from api.config import settings
-from api.container import ServerContainer
-from api.services.auth import AuthService
+from config import settings
+from services.auth import AuthService
 
 auth_service = AuthService(settings=settings)
 

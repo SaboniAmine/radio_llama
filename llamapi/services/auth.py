@@ -13,7 +13,7 @@ class AuthService:
 
         scheme = OAuth2AuthorizationCodeBearer(
             settings.fief_domain + "/authorize",
-            settings.fief_domain + "/api/token",
+            settings.fief_domain + "/llamapi/token",
             scopes={"openid": "openid", "offline_access": "offline_access"},
             auto_error=False,
         )

@@ -1,11 +1,7 @@
 from dependency_injector import containers, providers
-from fastapi.security import OAuth2AuthorizationCodeBearer
-from fief_client import FiefAsync
-from fief_client.integrations.fastapi import FiefAuth
 
-from api.config import settings
-from api.database import Database
-from api.services.auth import AuthService
+from config import settings
+from database import Database
 
 
 class ServerContainer(containers.DeclarativeContainer):
@@ -15,4 +11,3 @@ class ServerContainer(containers.DeclarativeContainer):
         Database,
         db_url=config.db_url,
     )
-    
