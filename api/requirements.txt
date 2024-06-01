@@ -2,3 +2,4 @@ fastapi
 uvicorn
 fief-client[fastapi]
 pydantic-settings
+dependency-injector

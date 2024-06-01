@@ -1,33 +1,54 @@
-from api.config import Settings
-from fastapi import Depends, FastAPI
-from fastapi.security import OAuth2AuthorizationCodeBearer
-from fief_client import FiefAccessTokenInfo, FiefAsync
-from fief_client.integrations.fastapi import FiefAuth
+from dependency_injector.wiring import Provide, inject
 
-settings = Settings()
+from api.config import settings
+from fastapi import Depends, FastAPI, APIRouter
+from fief_client import FiefAccessTokenInfo
 
-fief = FiefAsync(  
-    settings.fief_domain,
-    settings.fief_client_id,
-    settings.fief_client_secret,
-)
-
-scheme = OAuth2AuthorizationCodeBearer(  
-    settings.fief_domain+"/authorize",  
-    settings.fief_domain+"/api/token",  
-    scopes={"openid": "openid", "offline_access": "offline_access"},
-    auto_error=False,  
-)
-
-auth = FiefAuth(fief, scheme)  
-
-app = FastAPI()
-
-print(settings.fief_domain)
+from api.container import ServerContainer
+from api.routers import users
+from api.services.auth import AuthService
 
 
-@app.get("/user")
-async def get_user(
-    access_token_info: FiefAccessTokenInfo = Depends(auth.authenticated()),  
-):
-    return access_token_info
+def create_app() -> FastAPI:
+    container = init_container()
+
+    init_db(container)
+    server = init_server(container)
+    # server.add_exception_handler(DBException, db_exception_handler)
+    # server.add_exception_handler(ValidationError, validation_exception_handler)
+    # server.add_exception_handler(Exception, generic_exception_handler)
+
+    return server
+
+
+def init_container():
+    container = ServerContainer()
+    container.wire(
+        modules=[
+            # emissions,
+            # runs,
+            # experiments,
+            # projects,
+            # teams,
+            # organizations,
+            users,
+            # authenticate,
+        ]
+    )
+    return container
+
+
+def init_db(container):
+    db = container.db()
+    db.create_database()
+    # sql_models.Base.metadata.create_all(bind=engine)
+
+
+def init_server(container):
+    server = FastAPI()
+    server.container = container
+    server.include_router(users.router)
+    return server
+
+
+app = create_app()
