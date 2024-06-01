@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Radio Llama</h1>
+    <Header></Header>
   </div>
 </template>
 
