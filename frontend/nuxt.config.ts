@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     modules: ['@nuxtjs/tailwindcss', "nuxt-primevue"],
     primevue: {
         options: { unstyled: true },
-        importPT: { as: 'Lara', from: path.resolve(__dirname, './presets/lara/') },
+        importPT: { as: 'Lara', from: path.resolve(__dirname, './presets/aura/') },
         components: {
             exclude: ["Editor", "Chart"]
         }
