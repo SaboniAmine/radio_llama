@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-    --primary-50: 236 253 245;
+    --primary-50: 218 67 255;
     --primary-100: 209 250 229;
     --primary-200: 167 243 208;
     --primary-300: 110 231 183;
@@ -31,4 +31,20 @@ body {
     background: url('~/assets/img/bg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
-  }
+    font-family: 'azert mono', monospace;
+}
+
+/* only buttons with data-p-severity="help" */
+button[data-p-severity="help"] {
+    color: #fff !important;
+    background: #DA43FF !important;
+    border: none !important;
+}
+
+.bg-card {
+    background: rgba(0, 0, 0, 0.2)
+}
+
+.bg-llama {
+    background : rgba(255, 255, 255, 0.4)
+}

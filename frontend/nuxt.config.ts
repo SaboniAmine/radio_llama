@@ -1,10 +1,12 @@
 import * as path from 'path';
 
 export default defineNuxtConfig({
-    // import this script <link href="/node_modules/primeicons/primeicons.css" rel="stylesheet">
 
     // Import PrimeVue CSS
-    css: ["primevue/resources/themes/saga-blue/theme.css", "primevue/resources/primevue.min.css", "primeicons/primeicons.css"],
+    css: [
+        "primevue/resources/themes/md-light-indigo/theme.css", 
+        "primevue/resources/primevue.min.css", 
+        "primeicons/primeicons.css"],
     modules: ['@nuxtjs/tailwindcss', "nuxt-primevue"],
     primevue: {
         options: { unstyled: true },
