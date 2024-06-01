@@ -1,12 +1,4 @@
 <template>
-  <div>
-    <Header></Header>
-  </div>
+  <Header></Header>
+  <NuxtPage />
 </template>
-
-<script setup lang="ts">
-</script>
-
-<style>
-@import url("~/assets/css/base.css");
-</style>

@@ -6,10 +6,15 @@
             <i class="pi pi-twitter"></i>
             <i class="pi pi-linkedin"></i>
         </div>
-        <Button label="LOG IN" rounded severity="help"/>
+        <div>
+            <Button v-if="visible" label="LOG IN" rounded severity="help" @click="$router.push('/login')"/>
+        </div>
     </header>
 </template>
 
-<script>
+<script setup lang="ts">
 import Button from 'primevue/button';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const visible = router.currentRoute.value.name !== 'login';
 </script>
