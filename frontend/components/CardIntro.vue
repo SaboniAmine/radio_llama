@@ -7,7 +7,7 @@
       </div>
       <div class="flex flex-col gap-2">
         <h1 class="text-2xl font-bold">RadioLlama</h1>
-        <p class="text-sm">by Artist Name</p>
+        <p class="text-sm">by Amine Saboni</p>
         <div class="flex items-center gap-4">
           <Button 
             :icon="playing ? 'pi pi-pause' : 'pi pi-play'" 
