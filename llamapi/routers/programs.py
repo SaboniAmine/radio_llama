@@ -35,3 +35,16 @@ def upload_playlist(
             track.get_music_brainz_metatadata()
 
     return len(tracklist)
+
+
+@router.post(
+    "/create",
+    status_code=status.HTTP_201_CREATED,
+    response_model=bool,
+)
+@inject
+def generate_program(
+        id: str,
+) -> str:
+
+    return "Llama faché"
