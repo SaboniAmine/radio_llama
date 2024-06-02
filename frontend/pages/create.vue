@@ -49,7 +49,7 @@
         <transition name="fade" mode="out-in">
             <div v-if="showSubmitButton && showPersonalityCard" ref="submitButton" class="flex flex-col col-start-2 col-span-10 gap-10">
                 <div class="flex justify-end">
-                    <Button label="GENERATE YOUR RADIO" rounded severity="help" @click="$router.push('/catalogs')"/>
+                    <Button label="GENERATE YOUR RADIO" rounded severity="help" @click="handleGenerate()"/>
                 </div>
             </div>
         </transition>   
@@ -137,6 +137,26 @@ function scrollToSubmitButton() {
     if (submitButtonElement) {
         submitButtonElement.scrollIntoView({ behavior: 'smooth' });
     }
+}
+
+// Fonction pour gérer la génération de la radio
+const router = useRouter();
+
+const handleGenerate = async () => {
+    //  appel API post
+    // const { data: responseData } = await useFetch('', {
+    //     method: 'post',
+
+    //     body: {
+    //       name: formData.value.name,
+    //       email: formData.value.email,
+    //       message: formData.value.message, 
+    //     }
+    // })
+
+    // console.log(responseData.value)
+
+    router.push('/catalogs')
 }
 </script>
 
