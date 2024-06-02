@@ -32,3 +32,16 @@ def get_user_by_id(
         user_service: UserService = Depends(Provide[ServerContainer.user_service]),
 ) -> User:
     return user_service.get_user_by_id(user_id)
+
+
+@router.get(
+    "/login/",
+    status_code=status.HTTP_200_OK,
+    response_model=User,
+)
+@inject
+def get_user_by_id(
+        user_id: str,
+        user_service: UserService = Depends(Provide[ServerContainer.user_service]),
+) -> User:
+    return user_service.get_user_by_id(user_id)
