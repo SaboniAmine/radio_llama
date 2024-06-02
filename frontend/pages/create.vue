@@ -1,7 +1,7 @@
 <template>
-    <div class="grid grid-cols-12 gap-4 p-5 p-10">
+    <div class="grid grid-cols-12 gap-4 p-5">
         <div class="flex flex-col col-span-10 col-start-2 gap-10">
-            <div class="flex flex-col items-start gap-8 justify-between w-full p-5 bg-card rounded-lg">
+            <div class="flex flex-col items-start gap-8 justify-between w-full p-10 bg-card rounded-lg">
                 <div class="flex flex-col w-full gap-8">
                     <h2 class="flex items-center gap-4">
                         <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-llama">
@@ -49,7 +49,7 @@
         <transition name="fade" mode="out-in">
             <div v-if="showSubmitButton && showPersonalityCard" ref="submitButton" class="flex flex-col col-start-2 col-span-10 gap-10">
                 <div class="flex justify-end">
-                    <Button label="GENERATE YOUR RADIO" rounded severity="help" @click="$router.push('/create')"/>
+                    <Button label="GENERATE YOUR RADIO" rounded severity="help" @click="$router.push('/catalogs')"/>
                 </div>
             </div>
         </transition>   
