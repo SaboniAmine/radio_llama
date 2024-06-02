@@ -6,12 +6,12 @@
                 RADIOLLAMA
             </span>
         </div>
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex ml-auto mr-10 gap-4">
             <i class="pi pi-facebook cursor-pointer" style="font-size: 2rem"></i>
             <i class="pi pi-twitter cursor-pointer" style="font-size: 2rem"></i>
             <i class="pi pi-linkedin cursor-pointer" style="font-size: 2rem"></i>
         </div>
-        <div>
+        <div class="flex">
             <Button v-if="visible" label="LOG IN" rounded severity="help" @click="$router.push('/login')"/>
         </div>
     </header>

@@ -69,13 +69,13 @@
     thumbnail: string;
     audioPath: string;
   }
-  
+
   const radios = ref<Radio[]>([
     {
-      title: 'Radio Jazz',
+      title: 'Radio Pop & Rock',
       artist: 'Amine Saboni',
       thumbnail: new URL('~/assets/img/radiollama.jpg', import.meta.url).href,
-      audioPath: new URL('~/assets/audio/test-2.wav', import.meta.url).href
+      audioPath: new URL('~/assets/audio/pop&rock.mp3', import.meta.url).href
     },
   ]);
   
@@ -124,26 +124,33 @@
     creationProgress.value = 0;
   
     const creationInterval = setInterval(() => {
-      creationProgress.value += (100 / 240); // 100% over 4 minutes
+      creationProgress.value += (100 / 90); // 100% over 1 minute 30
       if (creationProgress.value >= 100) {
         clearInterval(creationInterval);
         creatingRadio.value = false;
         // Once creation is complete, fill the new radio details
         radios.value.push({
-          title: 'New Radio',
-          artist: 'New Artist',
+          title: 'Radio Jazz & Classical',
+          artist: 'Amine Saboni',
           thumbnail: new URL('~/assets/img/radiollama.jpg', import.meta.url).href,
-          audioPath: new URL('~/assets/audio/test.wav', import.meta.url).href
+          audioPath: new URL('~/assets/audio/jazz&class.mp3', import.meta.url).href
         });
       }
-    }, 1000); // Update every second
+    }, 1000 ); // Update every second
   };
   
-  onMounted(() => {
-    // Set the default radio when the component mounts
-    selectedRadio.value = radios.value[0];
-  
-    // Start creating a new radio
+  onMounted(async () => {
+    try {
+        const response = await fetch('https://your-api-base-url.com/path/to/your/api/radios');
+        if (response.ok) {
+            radios.value = await response.json();
+            radios.value.forEach(radio => {
+                radio.thumbnail = new URL('~/assets/img/radiollama.jpg', import.meta.url).href;
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching radios:', error);
+    }
     createNewRadio();
   });
   </script>
