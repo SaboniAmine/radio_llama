@@ -4,6 +4,7 @@ from typing import List
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, status
 from starlette.datastructures import URL
+from starlette.responses import FileResponse
 
 from llamapi.container import ServerContainer
 from llamapi.domain.program import Program
@@ -55,14 +56,13 @@ def generate_program(
     return programs_service.generate_program(program)
 
 
-@router.post(
+@router.get(
     "/list_radios",
     status_code=status.HTTP_200_OK,
-    response_model=List,
 )
 @inject
 def list_radios(
         programs_service: ProgramGenerationService = Depends(Provide[ServerContainer.programs_service]),
-) -> str:
+) -> FileResponse:
 
     return programs_service.get_all_programs()

@@ -45,3 +45,4 @@ websockets==12.0
 codecarbon
 ecologits
 langchain_mistralai
+boto3
