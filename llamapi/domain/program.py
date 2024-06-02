@@ -1,17 +1,18 @@
+from dataclasses import dataclass
 from typing import List, Any
+
+from pydantic import BaseModel
 
 from llamapi.domain.track import Track
 
 
-class Program:
-    tracklist: List[Track]
+class Program(BaseModel):
+    genre: str
     name: str
-    animator_profile: Any
+    animator_profile: str
 
-    def __init__(self, tracklist: List[Track], name: str, animator_profile: Any):
-        self.tracklist = tracklist
-        self.name = name
-        self.animator_profile = animator_profile
 
-    def generate_radio(self, mood: str):
-        return True
+@dataclass
+class CollectionProgram:
+    name: str
+    path: str

@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from llamapi.container import ServerContainer
-from llamapi.routers import users
+from llamapi.routers import users, programs
 
 
 def create_app() -> FastAPI:
@@ -10,10 +10,6 @@ def create_app() -> FastAPI:
 
     init_db(container)
     server = init_server(container)
-    # server.add_exception_handler(DBException, db_exception_handler)
-    # server.add_exception_handler(ValidationError, validation_exception_handler)
-    # server.add_exception_handler(Exception, generic_exception_handler)
-
     return server
 
 
@@ -22,6 +18,7 @@ def init_container():
     container.wire(
         modules=[
             users,
+            programs
         ]
     )
     return container
@@ -36,11 +33,11 @@ def init_server(container):
     server = FastAPI()
     server.container = container
     server.include_router(users.router)
+    server.include_router(programs.router)
     return server
 
 
 app = create_app()
-
 
 if __name__ == '__main__':
     uvicorn.run(
