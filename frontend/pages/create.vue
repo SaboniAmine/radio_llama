@@ -7,7 +7,7 @@
                         <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-llama">
                             <span class="text-2xl">🦙</span>
                         </div>
-                        CHOOSE YOUR RADIO STYLE 1/2
+                        CHOOSE YOUR RADIO STYLE (Max 5)
                     </h2>
                     <div class="flex flex-wrap gap-4">
                         <div v-for="style in radioStyles" :key="style" class="flex items-center gap-4">
@@ -30,7 +30,7 @@
                             <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-llama">
                                 <span class="text-2xl">🦙</span>
                             </div>
-                            CHOOSE THE BROADCASTER PERSONALITY 2/2
+                            CHOOSE THE BROADCASTER PERSONALITY (Max 1)
                         </h2>
                         <div class="flex flex-wrap gap-4">
                             <div v-for="personality in radioPersonalities" :key="personality" class="flex items-center gap-4">
@@ -62,15 +62,14 @@ import { ref, watch, nextTick } from 'vue';
 
 // Tableau des styles de radio disponibles
 const radioStyles = [
-    "Synthwave", "Reggaeton", "Grunge", "Bluegrass", "Afrobeat", "Dubstep", 
-    "Salsa", "Bossa Nova", "Ambient", "K-Pop", "Ska", "Flamenco", "Trance", 
-    "Gospel", "New Age", "Swing", "Latin Jazz", "Techno", "Classical Symphony"
+    "Reggaeton", "Rock", "Jazz", "Afrobeat", "Dubstep",
+    "Salsa", "Pop", "Ambient", "K-pop", "Techno", "Classical"
 ];
 
 // Tableau des personnalités de radio disponibles
 const radioPersonalities = [
-    "Calm", "Hardrocker", "Jazzy", "Smooth", "Energetic", "Cool", 
-    "Lively", "Relaxed", "Dynamic", "Chill"
+    "Pleasant Male", "Serious Male", "Calm Male", "Confident Male",
+    "Pleasant Female", "Calm Female", "Serious Female",  "Confident Female",
 ];
 
 // Tableaux des styles et personnalités sélectionnés
