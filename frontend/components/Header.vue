@@ -1,10 +1,15 @@
 <template>
     <header class="flex items-center justify-between w-full p-10">
-        <div>RadioLlama</div>
+        <div class="flex flex-row items-center gap-2 cursor-pointer"  @click="$router.push({ name: 'index' })">
+            <img src="/logo.png" alt="" width="50" height="50">
+            <span> 
+                RADIOLLAMA
+            </span>
+        </div>
         <div class="flex items-center justify-between gap-4">
-            <i class="pi pi-facebook"></i>
-            <i class="pi pi-twitter"></i>
-            <i class="pi pi-linkedin"></i>
+            <i class="pi pi-facebook cursor-pointer" style="font-size: 2rem"></i>
+            <i class="pi pi-twitter cursor-pointer" style="font-size: 2rem"></i>
+            <i class="pi pi-linkedin cursor-pointer" style="font-size: 2rem"></i>
         </div>
         <div>
             <Button v-if="visible" label="LOG IN" rounded severity="help" @click="$router.push('/login')"/>
