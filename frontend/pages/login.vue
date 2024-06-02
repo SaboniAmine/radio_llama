@@ -14,7 +14,7 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <Button label="GOOO !" rounded severity="help" @click="$router.push('/create')"/>
+                        <Button label="GOOO !" rounded severity="help" @click="$router.push('/thankyou')"/>
                     </div>
                 </form>
             </div>
