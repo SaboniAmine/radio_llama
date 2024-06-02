@@ -19,3 +19,10 @@ class User(Base):
             f'name="{self.name}", '
             f'email="{self.email}")>'
         )
+
+
+class Program(Base):
+    __tablename__ = "programs"
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=uuid.uuid4)
+    name = Column(String, primary_key=True, index=True, nullable=False)
+    path = Column(String)
