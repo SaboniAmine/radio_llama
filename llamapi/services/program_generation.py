@@ -1,3 +1,4 @@
+import os
 import subprocess
 import boto3
 import requests
@@ -15,7 +16,7 @@ class ProgramGenerationService:
     def __init__(self, program_repository: SqlAlchemyRepository):
         self.program_repository = program_repository
         self.spotify_url = "https://api.spotify.com/v1/recommendations"
-        self.access_token = "BQDj3sPQ1z2Eva55LOM-RQ2jD9qxlml8E5grSeJBPEiC1G5UcEZhZ4wpHsgGcQpIvkgtsWctMkzl05wPys5DdHFIEU1TFm4cz8LG_U_hPwYx3RxAu1E"
+        self.access_token = os.getenv("SPOTIFY_ACCESS_TOKEN", "BQDHNbRC7CnOguX9yQDgxeE-20_sD9prtbWLxZVSz74uBv3HTsB-31Ecdh-iaHomNPP2yP2BQ8YpvKNO6E4bk_d3g_Mese5sWsV4HN-7iPcfvbRiCOs")
         self.output_file = "output.mp3"
 
     def generate_program(self, program: Program):

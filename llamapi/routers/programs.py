@@ -1,9 +1,7 @@
 import json
-from typing import List
 
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, status
-from starlette.datastructures import URL
 from starlette.responses import FileResponse
 
 from llamapi.container import ServerContainer
@@ -45,13 +43,12 @@ def upload_playlist(
 @router.post(
     "/create",
     status_code=status.HTTP_201_CREATED,
-    response_model=bool,
 )
 @inject
 def generate_program(
         program: Program,
         programs_service: ProgramGenerationService = Depends(Provide[ServerContainer.programs_service]),
-) -> str:
+):
 
     return programs_service.generate_program(program)
 
