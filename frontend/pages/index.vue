@@ -5,7 +5,7 @@
           <CardIntro></CardIntro>
 
           <div class="flex justify-end">
-            <Button label="BUILD MY OWN" rounded severity="help" @click="$router.push('/login')"/>
+            <Button label="BUILD MY OWN" rounded severity="help" @click="$router.push('/create')"/>
           </div>
         </div>
       </div>

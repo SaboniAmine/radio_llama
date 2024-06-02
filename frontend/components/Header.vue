@@ -1,8 +1,8 @@
 <template>
     <header class="flex items-center justify-between w-full p-10">
         <div class="flex flex-row items-center gap-2 cursor-pointer"  @click="$router.push({ name: 'index' })">
-            <img src="/logo.png" alt="" width="50" height="50">
-            <span> 
+            <img src="/logo.png" alt="" width="56" height="56">
+            <span class="text-2xl"> 
                 RADIOLLAMA
             </span>
         </div>
