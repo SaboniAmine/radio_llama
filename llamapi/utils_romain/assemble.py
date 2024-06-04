@@ -2,53 +2,76 @@ import os
 import ffmpeg
 import json
 
-data = []
+# data = [
+#     {'name': 'Diamond Eyes (Boom-Lay Boom-Lay Boom)', 'artist': 'Shinedown', 'url': 'https://open.spotify.com/track/1PLMK1ui86iHHG3FM1N7ue'},
+#     {'name': 'One Last Breath', 'artist': 'Creed', 'url': 'https://open.spotify.com/track/42T2QQv3xgBlpQxaSP7lnK'},
+#     {'name': 'Love No More', 'artist': 'Loud Luxury', 'url': 'https://open.spotify.com/track/15fZrZhdK0g1BS9sDeW6sD'},
+#     {'name': 'You Give Love A Bad Name', 'artist': 'Bon Jovi', 'url': 'https://open.spotify.com/track/3KYiA4vq6RPO1dE2XROXd8'},
+#     #{'name': 'Relationship (feat. Future)', 'artist': 'Young Thug', 'url': 'https://open.spotify.com/track/25oOaleife6E2MIKmFkPvg'}
+# ]
 
-with open("random-secret-game.json", 'r') as f:
-    data = json.load(f)
+# with open("random-secret-game.json", 'r') as f:
+#     data = json.load(f)
 
 # Dossier contenant les vidéos de jeu
-video_folder = "secret-game-data/"
+#video_folder = "assets/"
 
 # Liste des noms de fichiers vidéo de jeu
 #video_files = sorted([f for f in os.listdir(video_folder) if f.endswith(".mp4")])
 
-# Durée du décompte et de la musique
-guess_duration = 14
-music_duration = 7
-
-# Création de la liste des vidéos de jeu concaténées
-segments = []
+fade_duration = 1
 
 def formatName(fileName):
     # remove extension and replace _ by space
     return fileName.split(".")[0].replace("_", " ")
 
-input_count_video = (
-    ffmpeg.input("countdown_final.mp4")
-    .video
-)
+def generate_radio(ordered_files, output_file):
+    # Création de la liste des vidéos de jeu concaténées
+    segments = []
 
-for video in data:
-    video_path = os.path.join(video_folder, video["filename"])
-    name = video["title"] + " - " + video["name"]
-    #name = formatName(video_file)
+    for idx, file_path in enumerate(ordered_files):
+        if idx % 2 == 0:
+            # here we have animator
+            input_asset_audio = (
+                ffmpeg.input(file_path)
+                .audio
+            )
+        else:
+            # here we have music
+            input_asset_audio = (
+                ffmpeg.input(file_path, t=10)
+                .audio
+            )
+            # input_asset_audio.fade_out(fade_duration)
+            # input_asset_audio.fade_out(fade_duration)
+
+        # input_voice_tracking = (
+        #     ffmpeg.input("voice-tracking.wav")
+        #     .audio
+        # )
+
+        segments.append(input_asset_audio)
+        #segments.append(input_voice_tracking)
+
+    ffmpeg.concat(*segments, v=0, a=1).output(output_file).run(overwrite_output=True)
+    
+
+# for video in data:
+#     name = f"{video['artist']} - {video['name']}.mp3"
+#     path = os.path.join(video_folder, name)
+
+#     input_asset_audio = (
+#         ffmpeg.input(path, r=25)
+#         .audio
+#     )
+
+#     input_voice_tracking = (
+#         ffmpeg.input("voice-tracking.wav")
+#         .audio
+#     )
+
+#     segments.append(input_asset_audio)
+#     segments.append(input_voice_tracking)
 
 
-    input_asset_video = (
-        ffmpeg.input(video_path, t=music_duration, r=25)
-        .video
-        .filter("scale", size='hd1080', force_original_aspect_ratio="increase")
-        .filter("setsar", 1)
-    )
-
-    input_asset_video = ffmpeg.drawtext(input_asset_video, text=name, x=50, y=50, fontsize=48, fontcolor="white", box=1, boxcolor="black@0.5", boxborderw=5, fontfile="Minecraft.ttf")
-
-    input_audio = ffmpeg.input(video_path, ss=0, t=guess_duration + music_duration).audio
-    input_video = ffmpeg.concat(input_count_video, input_asset_video, n=2, v=1, unsafe=1)
-
-    segments.append(input_video)
-    segments.append(input_audio)
-
-
-ffmpeg.concat(*segments, v=1, a=1).output("output.mp4").run(overwrite_output=True)
+# ffmpeg.concat(*segments, v=0, a=1).output("output.mp4").run(overwrite_output=True)
