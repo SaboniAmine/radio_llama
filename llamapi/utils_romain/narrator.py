@@ -36,18 +36,17 @@ class ElevenLabsTextToSpeech(TextToSpeech):
             }
         }
 
-        timestamp = int(time.time())
-        output_path = "elevenlabs_" + str(timestamp) + ".mp3"
         response = requests.post(url, json=data, headers=headers)
         if response.status_code != 200:
             print(response.json())
             return None
         if save:
-            with open(output_path, 'wb') as f:
+            timestamp = int(time.time())
+            with open("elevenlabs_" + str(timestamp) + ".mp3", 'wb') as f:
                 for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
                     if chunk:
                         f.write(chunk)
-        return output_path
+        return response.content
 
 
 from langchain_mistralai import ChatMistralAI
@@ -68,8 +67,8 @@ Ton objectif est d'écrire le contenu d'une intervention de 6 secondes.
 Ton objectif est de parlé de la musique qui vient de se finir et de lancer la musique suivante, en l'accompagnant d'une anecdote sur l'artiste ou le morceau.
 
 <ton>
-Utilise un ton %tone
-Sois %inspiration
+Utilise un ton joyeux et agréable à écouter
+Sois enthousiaste et engageant
 
 Pour écrire le script , suis les étapes ci-dessous :
 1 - Réfléchis aux éléments clés à inclure dans ton script selon les objectifs définis
@@ -78,167 +77,45 @@ Pour écrire le script , suis les étapes ci-dessous :
 4 - Vérifie que le script final reflète bien le style d'inspiration et le ton fourni, tout en restant fidèle à ta propre voix et ton propre style d'animation.
 
 <tache>
-Écris le script final de %duration maximum pour l'intervention radio.
+Écris le script final de 6 secondes maximum pour l'intervention radio.
 
 <output_format>
 Formate le script au format json avec une clé "script" contenant le texte du script final.
 
 <infos>
 Musique précédente :
-    %previous_track_name
+    titre : Hit The Road Jack
+    artiste : Ray Charles
+    date de sortie : 1960
+    genre : rythm and blues, Jazz
 
 Musique suivante :
-    %next_track_name
+    titre : What a Wonderful World
+    artiste : Louis Armstrong
+    date de sortie : 1967
+    genre : Jazz
 """)]
 
-prompts = {
-    "transition": HumanMessage(content="""<role>
-Tu es un animateur radio chevronné qui anime régulièrement des émissions sur une webradio Jazz.
+chain = model | parser
 
-<objectif>
-Ton objectif est d'écrire le contenu d'une intervention de 6 secondes.
-Ton objectif est de parlé de la musique qui vient de se finir et de lancer la musique suivante, en l'accompagnant d'une anecdote sur l'artiste ou le morceau.
+result = chain.invoke(messages)
 
-<ton>
-Utilise un ton $tone
-Sois $inspiration
-
-Pour écrire le script , suis les étapes ci-dessous :
-1 - Réfléchis aux éléments clés à inclure dans ton script selon les objectifs définis
-2 - Rédige plusieurs versions du script en t'efforçant de respecter le ton fourni. Évite les formulations monotones ou ennuyeuses.
-3 - Peaufine le script jusqu'à obtenir une version finale de 6 qui sonne bien à l'oral et donne envie aux auditeurs d'en savoir plus.
-4 - Vérifie que le script final reflète bien le style d'inspiration et le ton fourni, tout en restant fidèle à ta propre voix et ton propre style d'animation.
-
-<tache>
-Écris le script final de %duration maximum pour l'intervention radio.
-
-<output_format>
-Formate le script au format json avec une clé "script" contenant le texte du script final.
-
-<infos>
-Musique précédente :
-    $previous_track
-
-Musique suivante :
-    $next_track
-"""),
-    "intro": HumanMessage(content="""<role>
-Tu es un animateur radio chevronné qui anime régulièrement des émissions sur une webradio.
-</role>
-
-<objectif>
-L'objectif est de produire le script pour une introduction mémorables qui fidélisent l'audience.
-</objectif>
-
-<ton>
-- Utilise un ton $tone
-</ton>
-
-<liste_titres>
-Voici la liste de titres musicaux avec leurs métadonnées :
-
-$track_list
-
-</liste_titres>
-
-<instructions>
-
-Tu dois utiliser le vocabulaire relatif à la webradio.
-
-Veuillez analyser attentivement cette liste de chansons et leurs métadonnées.
-
-Ensuite, en vous basant sur les éléments analysé précédement, veuillez rédiger un premier jet du script d'introduction engageant pour cette programmation musicale. Le script doit donner envie aux auditeurs de rester à l'écoute.
-Mettez en avant les points forts de la sélection.
-
-Ensuite, peaufinez le scripts pour qu'il soit fluide et naturel, et que la durée de chaque script ne dure pas plus de $duration.
-Votre scripts doit être écrits selon le ton défini. N'hésitez pas à utiliser des formules accrocheuses et un soupçon d'humour si approprié.
-</instructions>
-
-<tache>
-Écris le script final de $duration secondes maximum pour l'introduction radio.
-</tache>
-
-<output_format>
-Formate le script au format json avec une clé "script" contenant le texte du script final.
-</output_format>
-"""),
-    "outro": HumanMessage(content="""<role>
-Tu es un animateur radio chevronné qui anime régulièrement des émissions sur une webradio.
-</role>
-
-<objectif>
-L'objectif est de produire le script pour une extro mémorables qui fidélisent l'audience.
-</objectif>
-
-<ton>
-- Utilise un ton $tone
-</ton>
-
-<liste_titres>
-Voici la liste de titres musicaux joué avec leurs métadonnées :
-
-$track_list
-
-</liste_titres>
-
-<instructions>
-
-Tu dois utiliser le vocabulaire relatif à la webradio.
-
-Veuillez analyser attentivement cette liste de chansons et leurs métadonnées.
-
-Ensuite, en vous basant sur les éléments analysé précédement, veuillez rédiger un premier jet du script d'extro engageant pour cette programmation musicale. Le script doit donner envie aux auditeurs d'écouter la prochaine émission.
-Mettez en avant les points forts de la programmation musicale, les artistes, les genres musicaux, les anecdotes, les événements à venir, etc.
-
-Ensuite, peaufinez le scripts pour qu'il soit fluide et naturel, et que la durée de chaque script ne dure pas plus de $duration.
-Votre scripts doit être écrits selon le ton défini. N'hésitez pas à utiliser des formules accrocheuses et un soupçon d'humour si approprié.
-</instructions>
-
-<tache>
-Écris le script final de $duration secondes maximum pour l'extro de la radio.
-</tache>
-
-<output_format>
-Formate le script au format json avec une clé "script" contenant le texte du script final.
-</output_format>
-""")}
-
-from string import Template
-
-def get_script(type, data, chain=None):
-    chain = model or parser
-    
-    prompt: HumanMessage = prompts[type]
-    
-    src = Template(prompt.content)
-    text = src.substitute(data)
-
-    result = chain.invoke([HumanMessage(content=text)])
-    
-    print(result)
-    
-    
-    text_to_speech = json.loads(result.content)["script"]
-    
-    return text_to_speech
-
-voices =  {
+voices = {
+    "Female-Animation" : "KmqhNPEmmOndTBOPk4mJ",    # Lucie
+    # "Male-Deep" : "wyZnrAs18zdIj8UgFSV8",           # Martin Dupont Profond (Articulation lente et hachée)
     "Male-Calm" : "GK4x7OSjC6JLlDqAZnAE",           # Léo Latti
-    "Female-Calm" : "qMfbtjrTDTlGtBy52G6E",         # Emilie Lacroix
     "Male-Pleasant" : "1ns94GwK9YDCJoL6Nglv",       # Nicolas animateur
     "Female-Pleasant" : "qMfbtjrTDTlGtBy52G6E",     # Emilie Lacroix
     "Male-Serious" : "AmMsHJaCw4BtwV3KoUXF",        # Nicolas Petit
-    "Female-Serious" : "glDtoWIoIgk38YbycCwG",      # Clara Dupont
-    "Male-Confident" : "aQROLel5sQbj1vuIVi6B",      # Nicolas - Narration
     "Female-Confident" : "glDtoWIoIgk38YbycCwG",    # Clara Dupont
+    "Male-Narration" : "aQROLel5sQbj1vuIVi6B",      # Nicolas - Narration
 }
 
-voice_id_eleven = voices["Male-Pleasant"]
+text_to_speech = json.loads(result)["script"]
+voice_id_eleven = voices["Male-Calm"]
 
-def get_speech(text, voice_id = voice_id_eleven):
-    t2s = ElevenLabsTextToSpeech()
-    path = t2s.transform(text, voice_id, save=True)
-    
-    return path
+print("Text to Speech :")
+print(text_to_speech)
 
-
+t2s = ElevenLabsTextToSpeech()
+t2s.transform(text_to_speech, voice_id_eleven, save=True)
