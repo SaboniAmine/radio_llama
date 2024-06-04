@@ -2,10 +2,7 @@ import requests
 import os
 from abc import abstractmethod
 import time
-import dotenv
 import json
-
-dotenv.load_dotenv()
 
 CHUNK_SIZE = 1024
 
@@ -24,7 +21,7 @@ class ElevenLabsTextToSpeech(TextToSpeech):
         headers = {
             "Accept": "audio/mpeg",
             "Content-Type": "application/json",
-            "xi-api-key": os.getenv('API_KEY')
+            "xi-api-key": os.getenv('ELEVENLABS_API_KEY')
         }
 
         data = {
@@ -58,38 +55,6 @@ from langchain_core.output_parsers import StrOutputParser
 model = ChatMistralAI(model="mistral-large-latest")
 
 parser = StrOutputParser()
-
-messages = [
-    HumanMessage(content="""<role>
-Tu es un animateur radio chevronné qui anime régulièrement des émissions sur une webradio Jazz.
-
-<objectif>
-Ton objectif est d'écrire le contenu d'une intervention de 6 secondes.
-Ton objectif est de parlé de la musique qui vient de se finir et de lancer la musique suivante, en l'accompagnant d'une anecdote sur l'artiste ou le morceau.
-
-<ton>
-Utilise un ton %tone
-Sois %inspiration
-
-Pour écrire le script , suis les étapes ci-dessous :
-1 - Réfléchis aux éléments clés à inclure dans ton script selon les objectifs définis
-2 - Rédige plusieurs versions du script en t'efforçant de respecter le ton fourni. Évite les formulations monotones ou ennuyeuses.
-3 - Peaufine le script jusqu'à obtenir une version finale de 6 qui sonne bien à l'oral et donne envie aux auditeurs d'en savoir plus.
-4 - Vérifie que le script final reflète bien le style d'inspiration et le ton fourni, tout en restant fidèle à ta propre voix et ton propre style d'animation.
-
-<tache>
-Écris le script final de %duration maximum pour l'intervention radio.
-
-<output_format>
-Formate le script au format json avec une clé "script" contenant le texte du script final.
-
-<infos>
-Musique précédente :
-    %previous_track_name
-
-Musique suivante :
-    %next_track_name
-""")]
 
 prompts = {
     "transition": HumanMessage(content="""<role>

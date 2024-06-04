@@ -1,5 +1,7 @@
 from datetime import datetime
+from os import getenv
 
+getenv.load_dotenv()
 
 start_from_step = 4
 
