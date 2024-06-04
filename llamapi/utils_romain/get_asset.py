@@ -1,22 +1,12 @@
 import subprocess
 
+output_folder = "assets"
 #url = "https://music.youtube.com/watch?v=6-hRrKFkAQE"
-spotify_url = "https://open.spotify.com/track/15ahYSiHAIMxAnujlXVtta"
-
+spotify_url = "https://open.spotify.com/album/7rM9KqEFx41iHGC9X22CyP"
+name="coucou"
 
 #subprocess.call(["yt-dlp", url, "-o", f"{output_folder}/{name}.mp3", "-x", "--audio-format", "mp3"])
-
-def download_tracks(tracks, output_folder):
-  valid_tracks = []
-  for track in tracks:
-      spotify_url = track["url"]
-      status = subprocess.call(["spotdl", spotify_url, "--output", f"{output_folder}" + "{title}"])
-      
-      if status == 0:
-          track["path"] = f"{output_folder}{track['name']}.mp3"
-          valid_tracks.append(track)
-
-  return valid_tracks
+subprocess.call(["spotdl", spotify_url, "--output", f"{output_folder}/{name}.mp3"])
 
 
 # install yt-dlp: python3 -m pip install -U "yt-dlp[default]" 
