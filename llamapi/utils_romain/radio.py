@@ -3,14 +3,14 @@ from os import getenv
 
 getenv.load_dotenv()
 
-start_from_step = 4
+start_from_step = 0
 
 now = datetime.now()
 ## Get Recommendations
 from recommendations import get_recommendations
 
-genres = "electro,house"
-tracks = [{'name': 'Glory of Nelly', 'artist': 'Caravan Palace', 'url': 'https://open.spotify.com/track/6vkoFgpGHnQ9mwbZCY2yDh', 'path': 'assets/Glory of Nelly.mp3'}, {'name': 'Moombah - Afrojack Remix', 'artist': 'Silvio Ecomo', 'url': 'https://open.spotify.com/track/3HhGKFhUHt87EQKkawKeB8', 'path': 'assets/Moombah - Afrojack Remix.mp3'}, {'name': 'Mush, Mush', 'artist': 'Bassjackers', 'url': 'https://open.spotify.com/track/08TgvP8HivaWVIjfDTkPZR', 'path': 'assets/Mush, Mush.mp3'}]
+genres = "pop,rock"
+tracks = []
 if start_from_step <= 0:
     print("Getting Recommendations...")
     tracks = get_recommendations(genres)
@@ -40,7 +40,7 @@ if start_from_step <= 1:
 
 from narrator import get_script, get_speech
 
-tone = "angry"
+tone = "happy"
 
 scripts = []
 
@@ -89,12 +89,7 @@ if start_from_step <= 2:
     scripts.append(outro_script)
 
 ## Generate Voice Tracking Voice for each script
-speech_file_paths = [
-        "elevenlabs_1717332661.mp3",
-        "elevenlabs_1717332665.mp3",
-        "elevenlabs_1717332673.mp3",
-        "elevenlabs_1717332687.mp3"
-    ]
+speech_file_paths = []
 
 if start_from_step <= 3:
     print("Generating Voice Tracking...")
