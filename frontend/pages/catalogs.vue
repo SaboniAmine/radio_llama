@@ -60,8 +60,8 @@
   </template>
   
   <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
   import Button from 'primevue/button';
+import { onMounted, ref } from 'vue';
   
   interface Radio {
     title: string;
